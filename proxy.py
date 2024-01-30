@@ -72,7 +72,7 @@ def mirror(id, path):
         # Vervang de URL in de response
         content = re.sub(
             rf"{prowlarr_url}/{id}/download",
-            f"http://{proxy_url}/{id}/download",
+            f"{proxy_url}/{id}/download",
             content.decode('utf-8')
         )
         content = content.encode('utf-8')
