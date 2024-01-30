@@ -1,7 +1,8 @@
 Port = 8000
 
-```version: "3"
-
+### Example Docker Compose
+```
+version: "3"
 services:
   proxy:
     restart: unless-stopped
@@ -16,4 +17,5 @@ services:
       - auth_token=your_auth_token
       - proxy_url=http://your_proxy_url
     ports:
-      - "8000:8000"```
+      - "8000:8000"
+```
