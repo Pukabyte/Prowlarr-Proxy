@@ -14,6 +14,13 @@ proxy_url = os.environ.get('proxy_url')
 
 real_debrid_api_url = 'https://api.real-debrid.com/rest/1.0/torrents/instantAvailability/'
 
+def replace_url_for_query(content, prowlarr_url, proxy_url):
+    return re.sub(
+        rf"{prowlarr_url}/{id}/download",
+        f"{proxy_url}/{id}/download",
+        content.decode('utf-8')
+    ).encode('utf-8')
+
 @app.route('/<int:id>/download')
 def download(id):
     download_url = f"{prowlarr_url}/{id}/download"
@@ -68,16 +75,11 @@ def mirror(id, path):
     headers = {'x-api-key': x_api_key}
     response = requests.get(volledige_url, headers=headers)
     content = response.content
-    if 't=tvsearch' in request.query_string.decode('utf-8'):
-        # Vervang de URL in de response
-        content = re.sub(
-            rf"{prowlarr_url}/{id}/download",
-            f"{proxy_url}/{id}/download",
-            content.decode('utf-8')
-        )
-        content = content.encode('utf-8')
+    
+    if 't=tvsearch' in request.query_string.decode('utf-8') or 't=movie' in request.query_string.decode('utf-8'):
+        # Replace the URL in the response for TV or movie
+        content = replace_url_for_query(content, prowlarr_url, proxy_url)
 
-    # Stuur de aangepaste response terug naar de client
     return Response(content, status=response.status_code, content_type=response.headers['Content-Type'])
 
 if __name__ == "__main__":
