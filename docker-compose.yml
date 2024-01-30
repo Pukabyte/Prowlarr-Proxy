@@ -1,5 +1,4 @@
 version: "3"
-
 services:
   proxy:
     restart: unless-stopped
@@ -9,9 +8,9 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - prowlarr_url=http://your_prowlarr_url
-      - x_api_key=your_x_api_key
-      - auth_token=your_auth_token
-      - proxy_url=http://your_proxy_url
+      - prowlarr_url=http://your_prowlarr_url # Prowlarr URL
+      - x_api_key=your_x_api_key # Prowlarr API Key
+      - auth_token=your_auth_token # Real-Debrid API Key
+      - proxy_url=http://your_proxy_url # The URL of this image
     ports:
       - "8000:8000"
